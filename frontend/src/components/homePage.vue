@@ -2,11 +2,16 @@
 import { DateTime } from 'luxon'
 import axios from 'axios'
 import AttendanceChart from './barChart.vue'
+import Doughnut from './doughnutChart.vue';
+
 const apiURL = import.meta.env.VITE_ROOT_API
 
 export default {
+  name: "test",
   components: {
-    AttendanceChart
+    AttendanceChart,
+    Doughnut
+
   },
   data() {
     return {
@@ -66,9 +71,13 @@ export default {
     editEvent(eventID) {
       this.$router.push({ name: 'eventdetails', params: { id: eventID } })
     }
-  }
+  } 
 }
+
+
 </script>
+
+
 
 <template>
   <main>
@@ -130,10 +139,20 @@ export default {
                 {{ error.message }}
               </p>
             </div>
-            <!-- End of error alert -->
           </div>
+            <!-- End of error alert -->
+        </div>
+
+      
+    <div class="grid grid-cols-2 gap-6  max-w-5xl my-16 mx-auto">
+     <div class="shadow ring-1 ring-gray-100 rounded">
+      <Doughnut />
+      </div>
+      <div class="shadow ring-1 ring-gray-100 rounded">
+       <!-- <Doughnut /> -->
         </div>
       </div>
     </div>
+  </div>
   </main>
 </template>
