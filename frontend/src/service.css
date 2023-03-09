@@ -1,0 +1,116 @@
+.container {
+    margin: 0 auto;
+    padding: 0 px;
+    max-width: 480px;
+}
+
+input[type="text"] {
+    width: 100%;
+    height: 50px;
+    font-family: "Times New Roman", Times, serif;
+    background: #f1f3f3;
+    color: #158;
+    border : 1px solid transparent;
+    border-radius: 12px;
+    transition: border 0.2889s linear;
+
+}
+
+button {
+    font: 15px/1.4 "Poppins", sans-serif;
+    color: #459;
+    cursor: pointer;
+    transition: all 0.2889s linear;
+}
+
+h1 {
+    font-size: 21.5 px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+}
+button:focus {
+    outline: none;
+}
+
+.title {
+    text-align: center;
+    margin: 0 0 18 px;
+
+}
+
+.service {
+    background: #fff;
+    border-radius: 25px;
+    padding: 32px;
+    box-shadow: 0px 0px 38px 0px rgba(0,0,0,0,1); 
+
+}
+.formone {
+    position: relative;
+    margin: 0 0 28px;
+}
+.formone button{
+    border: none;
+    color:rgb(99, 29, 179);
+    font-size: 19px;
+    background: none;
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.addbutton {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 22px;
+}
+
+.addbutton button{
+    width: 25%;
+    color:aquamarine;
+    border: none;
+    padding: 0px;
+    margin: 0 6px;
+    border-radius:  12px;
+    background: #8ec5c2;
+}
+.addbutton button:hover {
+    background: #348;
+}
+
+.activetask {
+    padding: 0 5px;
+}
+
+.choose{
+    padding: 0 10px;;
+
+}
+.choose li{
+    display:flex;
+    justify-content: space-between;
+    margin: 0 0 22px;
+}
+
+.choose button{
+    border: none;
+    background: none;
+}
+
+.choose button:hover{
+    color: #4ec5c2;
+}
+
+.choose .toggle i{
+    margin: 0 11px 0 0;
+    font-size: 13.5px;
+}
+
+.choose .toggle.toggle-completed {
+    text-decoration: line-through;
+}

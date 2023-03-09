@@ -190,7 +190,50 @@ export default {
             </div>
           </div>
         </div>
+                    <div class="container">
+                      <div class="service">
+                        <div class="title">
+                          <h1>Choose a service</h1>
+          </div>
+        </div>
+      </div>
+                    <div class="Choose">
+                      <ul>
+                        <li>
+                          <button>Family Support </button>
+                          <button><i class="far fa-trash-alt"></i></button>
 
+                        </li>
+                        <li>
+                          <button>Adult Education </button>
+                          <button><i class="far fa-trash-alt"></i></button>
+
+                        </li>
+                        <li>
+                          <button>Youth Services Program </button>
+                          <button><i class="far fa-trash-alt"></i></button>
+
+                        </li>
+                        <li>
+                          <button>Early childhoodEducation </button>
+                          <button><i class="far fa-trash-alt"></i></button>
+
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="addbutton">
+                      <button>Add Service</button>
+                    </div>
+                    
+                    <div class="activetask">
+                      <span> active number of tasks: </span>
+
+                    </div>
+
+      <div class="formone">
+        <input type="text" placeholder="Add a Service" />
+        <button><i class="fas fa-plus"></i></button>
+      </div>
         <!-- grid container -->
         <div
           class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10"
