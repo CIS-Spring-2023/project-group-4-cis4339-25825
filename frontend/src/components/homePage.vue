@@ -144,7 +144,7 @@ export default {
         </div>
 
       
-    <div class="grid grid-cols-2 gap-6  max-w-5xl my-16 mx-auto">
+    <div class="gap-6  max-w-5xl my-16 mx-auto">
      <div class="shadow ring-1 ring-gray-100 rounded">
       <Doughnut />
       </div>
