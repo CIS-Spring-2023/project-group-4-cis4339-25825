@@ -8,7 +8,7 @@ const apiURL = import.meta.env.VITE_ROOT_API
 export default {
   setup() {
     const store = useStore(); // Move the store initialization here
-    return { v$: useVuelidate({ $autoDirty: true }) }
+    return { v$: useVuelidate({ $autoDirty: true }),store }
   },
   data() {
     return {
@@ -46,8 +46,12 @@ export default {
             console.log(error)
           })
       }
-    }
-  },
+    },
+    valueChanging(){
+      console.log(this.event);
+
+  }
+},
   // sets validations for the various data properties
   validations() {
     return {
@@ -153,7 +157,7 @@ export default {
                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
                   notchecked
                 />
-                <span class="ml-2">Early Childhood Education</span>
+                <span class="ml-2">{{ item.text }}</span>
               </label>
             </div>
           </div>
