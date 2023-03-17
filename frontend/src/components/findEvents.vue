@@ -1,9 +1,18 @@
 <script>
 import { DateTime } from 'luxon'
 import axios from 'axios'
+import { useStore } from "vuex";
 const apiURL = import.meta.env.VITE_ROOT_API
 
 export default {
+  setup() {
+    const store = useStore();
+
+    console.log(store?.state?.servicesModule.events, "just");
+    return {
+      store
+    };
+  },
   data() {
     return {
       events: [],
@@ -148,9 +157,9 @@ export default {
           </thead>
           <tbody class="divide-y divide-gray-300">
             <tr
+              v-for="event in store?.state?.servicesModule.events"
+              :key="event.name"
               @click="editEvent(event._id)"
-              v-for="event in events"
-              :key="event._id"
             >
               <td class="p-2 text-left">{{ event.name }}</td>
               <td class="p-2 text-left">{{ formattedDate(event.date) }}</td>

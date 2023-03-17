@@ -60,6 +60,9 @@ export default {
   }
 }
 </script>
+
+
+
 <template>
   <div class="shadow-lg rounded-lg overflow-hidden">
     <canvas class="p-10" ref="attendanceChart"></canvas>

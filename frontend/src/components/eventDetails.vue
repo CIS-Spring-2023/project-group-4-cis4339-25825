@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 const apiURL = import.meta.env.VITE_ROOT_API
 
 export default {
-  props: ['id'],
+  props: ['id', 'options'],
   setup() {
     return { v$: useVuelidate({ $autoDirty: true }) }
   },
@@ -28,6 +28,11 @@ export default {
         attendees: []
       }
     }
+  },
+  computed: {
+    selectedOptions() {
+        // Filter your data based on the selected options
+    } 
   },
   created() {
     axios.get(`${apiURL}/events/id/${this.$route.params.id}`).then((res) => {
@@ -77,6 +82,8 @@ export default {
   }
 }
 </script>
+
+
 <template>
   <main>
     <div>
@@ -150,6 +157,7 @@ export default {
               ></textarea>
             </label>
           </div>
+        </div>
 
           <div></div>
           <div></div>
@@ -157,7 +165,7 @@ export default {
           <!-- form field -->
           <div class="flex flex-col grid-cols-3">
             <label>Services Offered at Event</label>
-            <div>
+  <!--      <div>
               <label for="familySupport" class="inline-flex items-center">
                 <input
                   type="checkbox"
@@ -208,8 +216,12 @@ export default {
                 />
                 <span class="ml-2">Early Childhood Education</span>
               </label>
-            </div>
-          </div>
+            </div> -->
+          </div> 
+        <div>
+          <ul>
+            <li v-for="option in selectedOptions" :key="option">{{ options }}</li>
+          </ul>
         </div>
 
         <!-- grid container -->

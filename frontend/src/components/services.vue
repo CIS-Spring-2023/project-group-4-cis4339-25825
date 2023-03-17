@@ -1,10 +1,25 @@
 <template>
     <div>
       <div class="max-w-5xl mx-auto py-20">
-        <h1 class="text-2xl font-bold py-4">services</h1>
+        <h1 class="text-2xl font-bold py-4">Services</h1>
         <Multiselect label="Select Services" :data="options" />
       </div>
+      <div class="Choose">
+                    </div>
+                    
+                    <div class="activetask">
+                      <span> Input New Service: </span>
 
+                    </div>                  
+
+    <div class="formone">
+        <input type="text" placeholder="Add a Service" />
+        <button><i class="fas fa-plus"></i></button>
+      </div>
+
+      <div class="addbutton">
+                      <button>Add Service</button>
+                    </div>
 
 
     </div>
@@ -25,31 +40,19 @@
   const options = [
         {
           value: 1,
-          text: "Child Protection",
+          text: "Family Support",
         },
         {
           value: 2,
-          text: "Cars",
+          text: "Adult Education",
         },
         {
           value: 3,
-          text: "Cycle Maintainance",
+          text: "Youth Services Program",
         },
         {
           value: 4,
-          text: "Bikes",
-        },
-        {
-          value: 5,
-          text: "Five",
-        },
-        {
-          value: 6,
-          text: "Six",
-        },
-        {
-          value: 7,
-          text: "Seven",
+          text: "Early Childhood Education",
         },
       ] 
   

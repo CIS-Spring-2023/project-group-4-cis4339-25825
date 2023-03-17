@@ -1,11 +1,13 @@
 <script>
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import { useStore } from 'vuex';
 import axios from 'axios'
 const apiURL = import.meta.env.VITE_ROOT_API
 
 export default {
   setup() {
+    const store = useStore(); // Move the store initialization here
     return { v$: useVuelidate({ $autoDirty: true }) }
   },
   data() {
@@ -32,6 +34,8 @@ export default {
       const isFormCorrect = await this.v$.$validate()
       // If no errors found. isFormCorrect = True then the form is submitted
       if (isFormCorrect) {
+        console.log(this.store, 'here');
+        this.store.commit("servicesModule/setForm", this.event);
         axios
           .post(`${apiURL}/events`, this.event)
           .then(() => {
@@ -80,6 +84,7 @@ export default {
               <span style="color: #ff0000">*</span>
               <input
                 type="text"
+                @input="valueChanging"
                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 v-model="event.name"
               />
@@ -136,51 +141,14 @@ export default {
           <!-- form field -->
           <div class="flex flex-col grid-cols-3">
             <label>Services Offered at Event</label>
-            <div>
-              <label for="familySupport" class="inline-flex items-center">
+          
+              <div v-for="item in store?.state?.servicesModule?.services" :key="item?.value">
+              <label :for="item.value" class="inline-flex items-center">
                 <input
+                @input="valueChanging"
                   type="checkbox"
-                  id="familySupport"
-                  value="Family Support"
-                  v-model="event.services"
-                  class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
-                  notchecked
-                />
-                <span class="ml-2">Family Support</span>
-              </label>
-            </div>
-            <div>
-              <label for="adultEducation" class="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  id="adultEducation"
-                  value="Adult Education"
-                  v-model="event.services"
-                  class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
-                  notchecked
-                />
-                <span class="ml-2">Adult Education</span>
-              </label>
-            </div>
-            <div>
-              <label for="youthServices" class="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  id="youthServices"
-                  value="Youth Services Program"
-                  v-model="event.services"
-                  class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
-                  notchecked
-                />
-                <span class="ml-2">Youth Services Program</span>
-              </label>
-            </div>
-            <div>
-              <label for="childhoodEducation" class="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  id="childhoodEducation"
-                  value="Early Childhood Education"
+                  :id="item.value"
+                  :value="item.text"
                   v-model="event.services"
                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
                   notchecked
@@ -197,7 +165,7 @@ export default {
           </div>
         </div>
       </div>
-                    <div class="Choose">
+ <!---                   <div class="Choose">
                       <ul>
                         <li>
                           <button>Family Support </button>
@@ -228,12 +196,12 @@ export default {
                     <div class="activetask">
                       <span> active number of tasks: </span>
 
-                    </div>
+                    </div> 
 
       <div class="formone">
         <input type="text" placeholder="Add a Service" />
         <button><i class="fas fa-plus"></i></button>
-      </div>
+      </div>  -->
         <!-- grid container -->
         <div
           class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10"
