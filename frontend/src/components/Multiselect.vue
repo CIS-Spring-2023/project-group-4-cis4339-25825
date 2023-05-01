@@ -1,19 +1,18 @@
- <template>
- 
+<template>
   <div>
     <div class="relative max-w-xl mx-auto mt-8">
       <label class="block text-lg font-normal py-2 text-gray-600">{{ label }}</label>
       <div
         class="ring-1 cursor-pointer overflow-auto multi px-2 py-2 text-sm w-full shadow focus:border-1 block focus:ring-1 focus:ring-red-600 flex gap-x-2 ring:outline-1 text-gray-700 focus:outline-green-600 focus:border-red-400 focus:ring-red-600 rounded ring-gray-300"
-        :class="store?.state?.servicesModule?.services?.length <= 0 ? 'flex justify-between' : ''"
+        :class="activeServices?.length <= 0 ? 'flex justify-between' : ''"
       >
-        <p>{{ store?.state?.servicesModule?.services?.length <= 0 ? "Events" : '' }}</p>
+        <p>{{ activeServices?.length <= 0 ? 'Events' : '' }}</p>
 
         <p
           class="bg-green-300 text-green-700 px-2 rounded-full"
-          v-for="item in store?.state?.servicesModule?.services"
+          v-for="item in activeServices"
           :key="item.value"
-          @click="deleteItem(item)"
+          @click="deactiveItem(item)"
         >
           {{ item.text }}
           <i class="fa fa-times"></i>
@@ -29,56 +28,69 @@
       >
         <p
           class="text-sm font-light mt-1 text-gray-700 hover:bg-green-700 px-1 py-2 rounded hover:text-white cursor-pointer transition-all"
-          v-for="item in data"
-          @click="setValue(item)"
+          v-for="item in allServices"
+          @click="activeServices.includes(item) ? deactiveItem(item) : activateItem(item)"
           :key="item.value"
-          :class="store?.state?.servicesModule?.services?.includes(item) ? 'text-green-700 font-bold' : ''"
-        >{{ item.text }}</p>
+          :class="activeServices.includes(item) ? 'text-green-700 font-bold' : ''"
+        >
+          {{ item.text }}
+        </p>
       </div>
     </div>
   </div>
-  
 </template>
 
 <script>
-import { ref } from "vue";
-import { useStore } from "vuex";
+import { ref } from 'vue'
+import { useStore, mapGetters } from 'vuex'
+import axios from 'axios'
+
+const apiURL = import.meta.env.VITE_ROOT_API
 
 export default {
   props: {
     label: String,
-    data: Object
+  },
+  computed: {
+    ...mapGetters('servicesModule', ['activeServices', 'allServices']),
   },
   setup(props) {
-    const dropdown = ref(false);
-    const arr = ref([]);
-    const store = useStore();
+    const dropdown = ref(false)
+    const arr = ref([])
+    const store = useStore()
 
     function setDropdown() {
-      dropdown.value = !dropdown.value;
+      dropdown.value = !dropdown.value
     }
 
-    const setValue = value => {
-      console.log(value);
-      store.commit("servicesModule/setServices", value);
+    const deactiveItem = async (item) => {
+      try {
+        await axios.put(`${apiURL}/service/deactivate`, { id: [item.value] })
+        store.commit('servicesModule/deactiveService', item)
+      } catch (error) {
+        console.error(error)
+      }
+    }
 
-      dropdown.value = !dropdown.value;
-    };
-
-    const deleteItem = item => {
-      store.commit("servicesModule/deleteItem", item);
-    };
+    const activateItem = async (item) => {
+      try {
+        await axios.put(`${apiURL}/service/activate`, { id: [item.value] })
+        store.commit('servicesModule/activateService', item)
+      } catch (error) {
+        console.error(error)
+      }
+    }
 
     return {
       dropdown,
       arr,
       store,
       setDropdown,
-      setValue,
-      deleteItem
-    };
-  }
-};
+      deactiveItem,
+      activateItem,
+    }
+  },
+}
 </script>
 <style scoped>
 select {

@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios'
+import { useStore } from 'vuex'
 const apiURL = import.meta.env.VITE_ROOT_API
 
 export default {
@@ -8,6 +9,10 @@ export default {
     return {
       orgName: 'Dataplatform'
     }
+  },
+  setup() {
+    const store = useStore()
+    return { store }
   },
   created() {
     axios.get(`${apiURL}/org`).then((res) => {
