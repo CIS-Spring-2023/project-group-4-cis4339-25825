@@ -72,4 +72,35 @@ router.put('/activate', (req, res, next) => {
     });
 });
 
+// PUT update status to inactive for selected services in a list
+router.put('/deactivate', (req, res, next) => {
+  const serviceIds = req.body.id
+
+  service.updateMany({ _id: { $in: serviceIds } }, { $set: { status: 'inactive' } }, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
+// POST update toggle service active to inactive or inactive to active
+router.post('/toggle-active', async (req, res, next) => {
+  const serviceIds = req.body.id
+
+  try {
+    const services = await service.find({ _id: { $in: serviceIds } })
+    for (const service of services) {
+      service.active = !service.active
+      await service.save()
+    }
+
+    res.json({ success: true })
+  } catch (error) {
+    next(error)
+  }
+})
+
+
 module.exports = router

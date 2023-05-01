@@ -94,7 +94,7 @@ export default {
       </h1>
     </div>
     <div class="px-10 py-20">
-      <form @submit.prevent="handleSubmitForm">
+      <form @submit.prevent="handleSubmitForm"> </form>
         <div
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10"
         >
@@ -165,6 +165,30 @@ export default {
           <!-- form field -->
           <div class="flex flex-col grid-cols-3">
             <label>Services Offered at Event</label>
+
+            <div v-for="item in activeServices" :key="item?.value">
+              <label :for="item.value" class="inline-flex items-center">
+                <input
+                  @input="valueChanging"
+                  type="checkbox"
+                  :id="item.value"
+                  :value="item.text"
+                  v-model="event.services"
+                  class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
+                  notchecked
+                />
+                <span class="ml-2">{{ item.text }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="service">
+            <div class="title">
+              <h1>Choose a service</h1>
+            </div>
+          </div>
+        </div>
   <!--      <div>
               <label for="familySupport" class="inline-flex items-center">
                 <input
@@ -217,13 +241,15 @@ export default {
                 <span class="ml-2">Early Childhood Education</span>
               </label>
             </div> -->
-          </div> 
-        <div>
+
+
+          <!--</div> --> 
+        <!--<div>
           <ul>
             <li v-for="option in selectedOptions" :key="option">{{ options }}</li>
           </ul>
         </div>
-
+      -->
         <!-- grid container -->
         <div
           class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10"
@@ -362,7 +388,7 @@ export default {
             </table>
           </div>
         </div>
-      </form>
-    </div>
+    <!--  </form> -->
+    <!--</div> -->
   </main>
 </template>
