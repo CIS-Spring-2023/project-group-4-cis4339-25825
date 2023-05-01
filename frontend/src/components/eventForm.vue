@@ -1,14 +1,14 @@
 <script>
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
-import { useStore } from 'vuex';
+import { useStore, mapGetters } from 'vuex'
 import axios from 'axios'
 const apiURL = import.meta.env.VITE_ROOT_API
 
 export default {
   setup() {
-    const store = useStore(); // Move the store initialization here
-    return { v$: useVuelidate({ $autoDirty: true }),store }
+    const store = useStore() // Move the store initialization here
+    return { v$: useVuelidate({ $autoDirty: true }), store }
   },
   data() {
     return {
@@ -22,10 +22,10 @@ export default {
           line2: '',
           city: '',
           county: '',
-          zip: ''
+          zip: '',
         },
-        description: ''
-      }
+        description: '',
+      },
     }
   },
   methods: {
@@ -34,8 +34,8 @@ export default {
       const isFormCorrect = await this.v$.$validate()
       // If no errors found. isFormCorrect = True then the form is submitted
       if (isFormCorrect) {
-        console.log(this.store, 'here');
-        this.store.commit("servicesModule/setForm", this.event);
+        console.log(this.store, 'here')
+        this.store.commit('servicesModule/setForm', this.event)
         axios
           .post(`${apiURL}/events`, this.event)
           .then(() => {
@@ -47,38 +47,34 @@ export default {
           })
       }
     },
-    valueChanging(){
-      console.log(this.event);
-
-  }
-},
+    valueChanging() {
+      console.log(this.event)
+    },
+  },
+  computed: {
+    ...mapGetters('servicesModule', ['activeServices']),
+  },
   // sets validations for the various data properties
   validations() {
     return {
       event: {
         name: { required },
-        date: { required }
-      }
+        date: { required },
+      },
     }
-  }
+  },
 }
 </script>
 <template>
   <main>
     <div>
-      <h1
-        class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10"
-      >
-        Create New Event
-      </h1>
+      <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Create New Event</h1>
     </div>
     <div class="px-10 py-20">
       <!-- @submit.prevent stops the submit event from reloading the page-->
       <form @submit.prevent="handleSubmitForm">
         <!-- grid container -->
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10"
-        >
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
           <h2 class="text-2xl font-bold">Event Details</h2>
 
           <!-- form field -->
@@ -93,11 +89,7 @@ export default {
                 v-model="event.name"
               />
               <span class="text-black" v-if="v$.event.name.$error">
-                <p
-                  class="text-red-700"
-                  v-for="error of v$.event.name.$errors"
-                  :key="error.$uid"
-                >
+                <p class="text-red-700" v-for="error of v$.event.name.$errors" :key="error.$uid">
                   {{ error.$message }}!
                 </p>
               </span>
@@ -115,11 +107,7 @@ export default {
                 type="date"
               />
               <span class="text-black" v-if="v$.event.date.$error">
-                <p
-                  class="text-red-700"
-                  v-for="error of v$.event.date.$errors"
-                  :key="error.$uid"
-                >
+                <p class="text-red-700" v-for="error of v$.event.date.$errors" :key="error.$uid">
                   {{ error.$message }}!
                 </p>
               </span>
@@ -145,11 +133,11 @@ export default {
           <!-- form field -->
           <div class="flex flex-col grid-cols-3">
             <label>Services Offered at Event</label>
-          
-              <div v-for="item in store?.state?.servicesModule?.services" :key="item?.value">
+
+            <div v-for="item in activeServices" :key="item?.value">
               <label :for="item.value" class="inline-flex items-center">
                 <input
-                @input="valueChanging"
+                  @input="valueChanging"
                   type="checkbox"
                   :id="item.value"
                   :value="item.text"
@@ -162,14 +150,14 @@ export default {
             </div>
           </div>
         </div>
-                    <div class="container">
-                      <div class="service">
-                        <div class="title">
-                          <h1>Choose a service</h1>
+        <div class="container">
+          <div class="service">
+            <div class="title">
+              <h1>Choose a service</h1>
+            </div>
           </div>
         </div>
-      </div>
- <!---                   <div class="Choose">
+        <!---                   <div class="Choose">
                       <ul>
                         <li>
                           <button>Family Support </button>
@@ -207,9 +195,7 @@ export default {
         <button><i class="fas fa-plus"></i></button>
       </div>  -->
         <!-- grid container -->
-        <div
-          class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10"
-        >
+        <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
           <h2 class="text-2xl font-bold">Address</h2>
           <!-- form field -->
           <div class="flex flex-col">
@@ -275,9 +261,7 @@ export default {
         </div>
 
         <div class="flex justify-between mt-10 mr-20">
-          <button class="bg-red-700 text-white rounded" type="submit">
-            Add New Event
-          </button>
+          <button class="bg-red-700 text-white rounded" type="submit">Add New Event</button>
         </div>
       </form>
     </div>
