@@ -182,4 +182,4 @@ const login = mongoose.model('login', loginDataSchema)
 const service = mongoose.model('service', serviceDataSchema)
 
 // package the models in an object to export
-module.exports = { clients, orgs, events, service }
+module.exports = { clients, orgs, events, service, login }
