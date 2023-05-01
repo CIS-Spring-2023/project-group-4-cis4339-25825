@@ -149,4 +149,24 @@ router.delete('/:id', (req, res, next) => {
   })
 })
 
+router.get('/zipcodes-chart', async (req, res, next) => {
+  try {
+    const data = await clients.aggregate([
+      { $group: { _id: '$address.zip', count: { $sum: 1 } } },
+      { $project: { _id: 0, zip: '$_id', count: 1 } },
+    ])
+
+    const totalCount = data.reduce((acc, d) => acc + d.count, 0)
+    if (totalCount === 0) return res.json({ labels: [], chartSeries: [] })
+
+    const labels = data.map((d) => d.zip)
+    const chartSeries = data.map((d) => Math.round((d.count / totalCount) * 100))
+
+    res.json({ labels, chartSeries })
+  } catch (error) {
+    next(error)
+  }
+})
+
+
 module.exports = router
