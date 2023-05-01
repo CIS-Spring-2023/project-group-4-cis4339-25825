@@ -35,7 +35,24 @@ export default {
         if (state.services.includes(item)) {
           state.services.splice(state.services.indexOf(item), 1)
         }
-      }
+      },
+      setToken: function (state, { token, access }) {
+        console.info('Token set', token)
+        console.info('Access set', access)
+        state.login.token = token
+        state.login.access = access
+        localStorage.setItem('token', token)
+        localStorage.setItem('access', access)
+      },
+      removeToken: function (state) {
+        state.login.token = null
+        state.login.access = null
+        localStorage.removeItem('token')
+        localStorage.removeItem('access')
+      },
+      setForm: function (state, formData) {
+        state.events.push(formData)
+      },
     },
     getters: {
       activeServices(state) {
@@ -43,7 +60,16 @@ export default {
       },
       allServices(state) {
         return state.services ?? []
-      }
+      },
+      isEditor(state) {
+        return state.login.access === 'editor'
+      },
+      isViewer(state) {
+        return state.login.access === 'viewer'
+      },
+      isAnon(state) {
+        return state.login.access !== 'editor' && state.login.access !== 'viewer'
+      },
     },
   }
   
