@@ -21,7 +21,7 @@ router.post('/', (req, res, next) => {
   })
 
 
-// POST new client
+/* POST new client
 router.post('/', (req, res, next) => {
     const newClient = req.body
     newClient.orgs = [org]
@@ -32,7 +32,7 @@ router.post('/', (req, res, next) => {
         res.json(data)
       }
     })
-  })
+  })*/
 
 // GET all services for org
 router.get('/', (req, res, next) => {
@@ -72,7 +72,7 @@ router.put('/activate', (req, res, next) => {
     });
 });
 
-// PUT update status to inactive for selected services in a list
+// PUT update status to inactive for non selected services in a list
 router.put('/deactivate', (req, res, next) => {
   const serviceIds = req.body.id
 
