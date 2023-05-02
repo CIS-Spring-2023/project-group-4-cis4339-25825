@@ -1,18 +1,15 @@
 <template>
-    <div>
-      <apexchart
-        type="pie"
-        :options="chartOptions"
-        :series="chartSeries"
-        width="500"
-        height="350"
-      />
-    </div>
-  </template>
+  <div>
+    <apexchart type="pie" :options="chartOptions" :series="chartSeries" width="500" height="350" />
+  </div>
+</template>
 
 <script>
-import { defineComponent } from 'vue';
-import VueApexCharts from 'vue3-apexcharts';
+import { defineComponent } from 'vue'
+import VueApexCharts from 'vue3-apexcharts'
+import axios from 'axios'
+
+const apiURL = import.meta.env.VITE_ROOT_API
 //import ApexCharts from 'apexcharts';
 
 export default defineComponent({
@@ -33,8 +30,17 @@ export default defineComponent({
             },
           },
         },
-        colors: ['#fca5a5', '#f87171', '#ef4444','#b91c1c'],
-        labels: ['aaa', 'BBB', 'CCC', 'DDD'],
+        title: {
+      text: 'Clients by ZipCode',
+      align: 'center',
+      style: {
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: '#333',
+      },
+    },
+        colors: [],
+        labels: [],
         legend: {
           position: 'bottom',
           markers: {
@@ -59,13 +65,46 @@ export default defineComponent({
         tooltip: {
           y: {
             formatter: function (value) {
-              return value + '%';
+              return value + '%'
             },
           },
         },
       },
-      chartSeries: [45, 15, 20, 30],
-    };
+      chartSeries: [],
+    }
   },
-});
+  methods: {
+    async updateChartData() {
+      // fetch the updated data from the server
+      try {
+        const { data } = await axios.get(`${apiURL}/clients/zipcodes-chart`)
+        const numLabels = data.labels.length
+        const colors = this.generateRandomColorShades(numLabels)
+        this.chartOptions = {
+          ...this.chartOptions,
+          colors,
+          labels: data.labels,
+        }
+        this.chartSeries = data.chartSeries
+      } catch (error) {
+        console.error('Error fetching chart data:', error)
+      }
+    },
+    generateRandomColorShades(numColors) {
+      const colors = []
+      for (let i = 0; i < numColors; i++) {
+        const hue = 0
+        const saturation = Math.floor(Math.random() * 51) + 50
+        const lightness = Math.floor(Math.random() * 31) + 40
+        const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`
+        colors.push(color)
+      }
+      return colors
+    },
+  },
+  mounted() {
+    // fetch the initial chart data when the component is mounted
+    this.updateChartData()
+  },
+})
 </script>
