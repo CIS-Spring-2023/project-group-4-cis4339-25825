@@ -21,6 +21,6 @@ cd frontend
 Follow instructions in frontend README for setup and running as a local instance.
 
 
-DocumentatioN
+## Documentation
 ```
 API Documentation can be found in backend folder
